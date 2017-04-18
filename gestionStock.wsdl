@@ -1,0 +1,80 @@
+<definitions name="GestionStockService"
+   targetNamespace="http://www.wine-mania.com/wsdl/GestionStock.wsdl"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:tns="http://www.wine-mania.com/wsdl/GestionStock.wsdl"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ 
+   <message name="GetProductRequest">
+      <part name="idProduit" type="xsd:integer"/>
+   </message>
+	
+   <message name="GetProductResponse">
+      <part name="produit" type="xsd:string"/>
+   </message>
+
+   <message name="GetStockProductRequest">
+      <part name="idProduit" type="xsd:integer"/>
+      <part name="qteProduit" type="xsd:integer"/>
+   </message>
+   
+   <message name="GetStockProductResponse">
+      <part name="reponse" type="xsd:string"/>
+   </message>
+
+   <portType name="Stock_PortType">
+      <operation name="getProduct">
+         <input message="tns:GetProductRequest"/>
+         <output message="tns:GetProductResponse"/>
+      </operation>
+      <operation name="getStockProduct">
+         <input message="tns:GetStockProductRequest"/>
+         <output message="tns:GetStockProductResponse"/>
+      </operation>
+   </portType>
+
+   <binding name="Stock_Binding" type="tns:Stock_PortType">
+      <soap:binding style="rpc"
+         transport="http://schemas.xmlsoap.org/soap/http"/>
+      <operation name="getProduct">
+         <soap:operation soapAction="getProduct"/>
+         <input>
+            <soap:body
+               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:wine-mania:gestionStock"
+               use="encoded"/>
+         </input>
+		
+         <output>
+            <soap:body
+               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:wine-mania:gestionStock"
+               use="encoded"/>
+         </output>
+      </operation>
+      <operation name="getStockProduct">
+         <soap:operation soapAction="getStockProduct"/>
+         <input>
+            <soap:body
+               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:wine-mania:gestionStockAvance"
+               use="encoded"/>
+         </input>
+      
+         <output>
+            <soap:body
+               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+               namespace="urn:wine-mania:gestionStockAvance"
+               use="encoded"/>
+         </output>
+      </operation>
+   </binding>
+
+   <service name="GestionStockService">
+      <documentation>WSDL File for GestionStockService</documentation>
+      <port binding="tns:Stock_Binding" name="Stock_Port">
+         <soap:address
+            location="http://localhost:13000/gestionstockservice/" />
+      </port>
+   </service>
+</definitions>
