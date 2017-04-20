@@ -1,80 +1,93 @@
-<definitions name="GestionStockService"
-   targetNamespace="http://www.wine-mania.com/wsdl/GestionStock.wsdl"
-   xmlns="http://schemas.xmlsoap.org/wsdl/"
-   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-   xmlns:tns="http://www.wine-mania.com/wsdl/GestionStock.wsdl"
-   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
- 
-   <message name="GetProductRequest">
-      <part name="idProduit" type="xsd:integer"/>
-   </message>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.wine-mania.com/wsdl/GestionStock.wsdl" 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="GestionStockService" targetNamespace="http://www.wine-mania.com/wsdl/GestionStock.wsdl">
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.wine-mania.com/wsdl/GestionStock.wsdl" attributeFormDefault="unqualified" elementFormDefault="unqualified" 
+targetNamespace="http://www.wine-mania.com/wsdl/GestionStock.wsdl">
+
+<xs:element name="GetProductRequest" type="tns:GetProductRequest"/>
+<xs:element name="GetProductResponse" type="tns:GetProductResponse"/>
+<xs:element name="GetStockProductRequest" type="tns:GetStockProductRequest"/>
+<xs:element name="GetStockProductResponse" type="tns:GetStockProductResponse"/>
+<xs:complexType name="GetProductRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="idProduct" type="xs:integer"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetProductResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="product" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetStockProductRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="idProduct" type="xs:integer"/>
+<xs:element minOccurs="0" name="quantite" type="xs:integer"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetStockProductResponse">
+<xs:sequence>
+<xs:element name="isEnoughStock" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+</wsdl:types>
+
+   <wsdl:message name="GetProductRequest">
+      <wsdl:part element="tns:GetProductRequest" name="parameters"></wsdl:part>
+   </wsdl:message>
 	
-   <message name="GetProductResponse">
-      <part name="produit" type="xsd:string"/>
-   </message>
+   <wsdl:message name="GetProductResponse">
+      <wsdl:part element="tns:GetProductResponse" name="parameters"></wsdl:part>
+   </wsdl:message>
 
-   <message name="GetStockProductRequest">
-      <part name="idProduit" type="xsd:integer"/>
-      <part name="qteProduit" type="xsd:integer"/>
-   </message>
+   <wsdl:message name="GetStockProductRequest">
+      <wsdl:part element="tns:GetStockProductRequest" name="parameters"></wsdl:part>
+   </wsdl:message>
    
-   <message name="GetStockProductResponse">
-      <part name="reponse" type="xsd:string"/>
-   </message>
+   <wsdl:message name="GetStockProductResponse">
+      <wsdl:part element="tns:GetStockProductResponse" name="parameters"></wsdl:part>
+   </wsdl:message>
 
-   <portType name="Stock_PortType">
-      <operation name="getProduct">
-         <input message="tns:GetProductRequest"/>
-         <output message="tns:GetProductResponse"/>
-      </operation>
-      <operation name="getStockProduct">
-         <input message="tns:GetStockProductRequest"/>
-         <output message="tns:GetStockProductResponse"/>
-      </operation>
-   </portType>
+   <wsdl:portType name="Stock_portType">
+      <wsdl:operation name="getProduct">
+         <wsdl:input message="tns:GetProductRequest" name="getProduct"></wsdl:input>
+         <wsdl:output message="tns:GetProductResponse" name="GetProductResponse"></wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getStockProduct">
+         <wsdl:input message="tns:GetStockProductRequest" name="GetStockProductRequest"></wsdl:input>
+         <wsdl:output message="tns:GetStockProductResponse" name="GetStockProductResponse"></wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
 
-   <binding name="Stock_Binding" type="tns:Stock_PortType">
-      <soap:binding style="rpc"
+   <wsdl:binding name="Stock_Binding" type="tns:Stock_portType">
+      <soap:binding style="document"
          transport="http://schemas.xmlsoap.org/soap/http"/>
-      <operation name="getProduct">
-         <soap:operation soapAction="getProduct"/>
-         <input>
-            <soap:body
-               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:wine-mania:gestionStock"
-               use="encoded"/>
-         </input>
+      <wsdl:operation name="getProduct">
+         <soap:operation soapAction="getProduct" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
 		
-         <output>
-            <soap:body
-               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:wine-mania:gestionStock"
-               use="encoded"/>
-         </output>
-      </operation>
-      <operation name="getStockProduct">
-         <soap:operation soapAction="getStockProduct"/>
-         <input>
-            <soap:body
-               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:wine-mania:gestionStockAvance"
-               use="encoded"/>
-         </input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getStockProduct">
+         <soap:operation soapAction="getStockProduct" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
       
-         <output>
-            <soap:body
-               encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-               namespace="urn:wine-mania:gestionStockAvance"
-               use="encoded"/>
-         </output>
-      </operation>
-   </binding>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
 
-   <service name="GestionStockService">
-      <documentation>WSDL File for GestionStockService</documentation>
-      <port binding="tns:Stock_Binding" name="Stock_Port">
+   <wsdl:service name="GestionStockService">
+      <wsdl:port binding="tns:Stock_Binding" name="Stock_Port">
          <soap:address
-            location="http://localhost:13000/gestionstockservice/" />
-      </port>
-   </service>
-</definitions>
+            location="http://localhost:13000/gestionstockservice"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

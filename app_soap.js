@@ -1,4 +1,4 @@
-    var http = require('http');
+		var http = require('http');
     var soap = require('soap');
     var async = require('async');
     var Sequelize = require('sequelize');
@@ -20,9 +20,8 @@
             Stock_Port: {
                 
                 getProduct: function (args, callback) {
-
-                    var idProduitR = args.idProduit.$value;
-                    
+					
+                    var idProduitR = args.idProduct;               
                     asyncTasks.push(function(callback){
                         // Call an async function, often a save() to DB
                         Product.findOne({
@@ -55,8 +54,8 @@
                 },
 
                 getStockProduct: function (args, callback) {
-                    var idProduit = args.idProduit.$value;
-                    var qteDemand = args.qteProduit.$value;
+                    var idProduit = args.idProduct;
+                    var qteDemand = args.quantite;
 
                     asyncTasks.push(function(callback){
 
@@ -72,9 +71,9 @@
 
                     async.parallel(asyncTasks, function(){
                         if(qteDemand <= stockDispo.quantite){
-                            callback({'Reponse': 'OK'});    
+                            callback({'isEnoughStock': true});    
                         } else {
-                            callback({'Reponse': 'NON'});
+                            callback({'isEnoughStock': false});
                         }                        
                     });
                 }
